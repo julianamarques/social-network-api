@@ -1,6 +1,6 @@
 # social-network-api
 
-API de rede social com Perfis, postagem e comentários. Usando autenticações básicas e via Token do Django Rest Framework
+API de rede social com Perfis, Postagem e Comentários. Usando autenticações básicas e via Token do Django Rest Framework
 
 ## Requisitos
 
