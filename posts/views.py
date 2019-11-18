@@ -71,7 +71,7 @@ class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     name = 'post-list'
-
+    permission_classes = (OwnerOrReadOnly, permissions.IsAuthenticated)
 
 class PostDetail(generics.RetrieveAPIView):
     name = 'post-detail'
@@ -91,7 +91,7 @@ class PostDetail(generics.RetrieveAPIView):
         post = Post.objects.get(id=id)
         post.delete()
 
-        return Response({'Message', 'Post excluído com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'Message' : 'Post excluído com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentList(generics.ListCreateAPIView):
