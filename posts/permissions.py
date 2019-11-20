@@ -6,4 +6,4 @@ class OwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
-            return obj.profile.user == request.user
+            return obj.owner.user == request.user
