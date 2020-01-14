@@ -13,6 +13,5 @@ urlpatterns = [
     path('posts-comments/', PostCommentsList.as_view(), name=PostCommentsList.name),
     path('user-posts/', ProfilePostsList.as_view(), name=ProfilePostsList.name),
     path('comments/', CommentList.as_view(), name=CommentList.name),
-    path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', obtain_auth_token),
 ]

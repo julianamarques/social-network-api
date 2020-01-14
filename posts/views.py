@@ -37,7 +37,7 @@ class ImportDatabase(generics.GenericAPIView):
 
         for comment in content['comments']:
             post = Post.objects.get(id=comment['postId'])
-            Comment.objects.create(id=comment['id'], name=comment['name'], email=comment['email'], body=comment['body'], post=post)
+            Comment.objects.create(id=comment['id'], name=comment['name'], body=comment['body'], post=post)
 
 
 class ProfileList(generics.ListCreateAPIView):
@@ -48,7 +48,7 @@ class ProfileList(generics.ListCreateAPIView):
 
 class ProfileDetail(generics.RetrieveAPIView):
     name = 'profile-detail'
-    permission_classes = permissions.IsAuthenticated
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, id):
         try:
@@ -61,21 +61,25 @@ class ProfileDetail(generics.RetrieveAPIView):
 
 
     def delete(self, request,id):
-        profile = Profile.objects.get(id=id)
-        profile.delete()
+        try:
+            profile = Profile.objects.get(id=id)
+            profile.delete()
 
-        return Response({'Message', 'Usuário excluído com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'Message', 'Perfil excluído com sucesso!'}, status=status.HTTP_204_NO_CONTENT)
+
+        except Profile.DoesNotExist:
+            return Response({'Message' : 'Perfil não encontrado!'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     name = 'post-list'
-    permission_classes = (OwnerOrReadOnly, permissions.IsAuthenticated)
+
 
 class PostDetail(generics.RetrieveAPIView):
     name = 'post-detail'
-    permission_classes = (OwnerOrReadOnly, permissions.IsAuthenticated)
+    permission_classes = (OwnerOrReadOnly,)
     
     def get(self, request, id):
         try:
